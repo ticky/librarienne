@@ -1,0 +1,19 @@
+<div id="line-{{lineNumber}}" time="{{lineRenderTime}}" class="line {{lineType}} {{lineClassAttributeRepresentation}}" ltype="{{lineType}}" nickname="{{nickname}}" mtype="{{nicknameType}}"{{#nicknameColorHashingEnabled}} nick-color-number="{{nicknameColorNumber}}"{{/nicknameColorHashingEnabled}} command="{{rawCommand}}" highlight="{{highlightAttributeRepresentation}}">
+	<span class="time">{{formattedTimestamp}}</span>
+{{#isEncrypted}}
+	{{{encryptedMessageLockTemplate}}}
+{{/isEncrypted}}
+	<span class="sender" onclick="Textual.nicknameMaybeWasDoubleClicked(this)" oncontextmenu="Textual.openStandardNicknameContextualMenu()" nickname="{{nickname}}">
+		{{formattedNickname}}
+	</span>
+	<span class="message">
+		{{{formattedMessage}}}
+	
+{{#inlineMediaAvailable}}
+	{{#inlineMediaArray}}
+		<br/>
+		<a href="{{{anchorLink}}}" onclick="return Textual.toggleInlineImage('{{anchorInlineImageUniqueID}}')" class="inline_image"><img src="{{{imageURL}}}" id="inlineImage-{{anchorInlineImageUniqueID}}" style="display: none;" title="Hide image by shift clicking." /></a>
+	{{/inlineMediaArray}}
+{{/inlineMediaAvailable}}
+	</span>
+</div>
