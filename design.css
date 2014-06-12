@@ -167,6 +167,10 @@ a:link:hover {
 	font-style: italic;
 }
 
+.line.event {
+	color: #777;
+}
+
 .line .message {
 	-webkit-flex-grow: 1;
 	flex-grow: 1;
