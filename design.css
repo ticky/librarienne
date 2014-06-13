@@ -109,8 +109,6 @@ a:link:hover {
 	overflow: hidden;
 	word-break: break-all;
     word-break: break-word; /* WebKit */
-    -webkit-hyphens: auto;
-    hyphens: auto;
 }
 
 #topic_bar:hover {
