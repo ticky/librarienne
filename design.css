@@ -4,7 +4,6 @@
 }
 
 body {
-	font-size: 0.9em;
 	background: #eee;
 	color: #222;
 	min-height: 100vh;
@@ -131,8 +130,12 @@ a:link:hover {
 	border-top: 1px solid transparent;
 	border-bottom: 1px solid transparent;
 	display: -webkit-flex;
-	-webkit-flex-direction: column;
-	flex-direction: column;
+	-webkit-flex-direction: row;
+	flex-direction: row;
+	-webkit-align-content: space-between;
+	align-content: space-between;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
 	display: flex;
     -webkit-transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out;
     transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out;
@@ -190,18 +193,51 @@ a:link:hover {
 .line .time {
     -webkit-flex-shrink: 0;
     flex-shrink: 0;
+    -webkit-flex-grow: 1;
+    flex-grow: 1;
+    -webkit-order: 5;
+    order: 5;
+    text-align: right;
+    opacity: 0;
+    -webkit-transform: translateX(100px);
+    transform: translateX(100px);
+    -webkit-transition: opacity 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+    transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
+}
+
+.line:hover .time {
+	opacity: 1;
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
 }
 
 .line .sender {
     -webkit-flex-shrink: 0;
     flex-shrink: 0;
+    -webkit-flex-grow: 1;
+    flex-grow: 1;
     -webkit-order: 1;
     order: 1;
+    width: 50%;
 	font-weight: bolder;
 }
 
-.inline_nickname {
-	font-weight: bolder;
+.line.action {
+	-webkit-flex-wrap: nowrap;
+	flex-wrap: nowrap;
+}
+
+.line.action .sender {
+	width: auto;
+	-webkit-flex-grow: 0;
+}
+
+.line.action .message {
+    padding: 0 0.5em;
+}
+
+.line.action .time {
+	-webkit-order: 10;
 }
 
 .line.action .sender,
@@ -209,8 +245,21 @@ a:link:hover {
 	font-style: italic;
 }
 
+.inline_nickname {
+	font-weight: bolder;
+}
+
 .line.event {
 	color: #777;
+	-webkit-flex-wrap: nowrap;
+	flex-wrap: nowrap;
+}
+
+.line.event .time {
+    -webkit-flex-grow: 0;
+    flex-grow: 0;
+    -webkit-order: 10;
+    order: 10;
 }
 
 .line .message {
@@ -222,7 +271,11 @@ a:link:hover {
     word-break: break-word; /* WebKit */
     -webkit-hyphens: auto;
     hyphens: auto;
-    padding: 0 0.5em;
+    width: 100%;
+}
+
+.line.event .message {
+	width: auto;
 }
 
 .line[nickname^="*"] .message {
@@ -231,13 +284,9 @@ a:link:hover {
 
 @media (min-width: 480px) {
 
-	body {
-		font-size: 1em;
-	}
-
 	.line {
-		-webkit-flex-direction: row;
-		flex-direction: row;
+		-webkit-flex-wrap: nowrap;
+		flex-wrap: nowrap;
 	}
 
 	.line .sender {
@@ -246,31 +295,31 @@ a:link:hover {
 		overflow: hidden;
 		text-overflow: ellipsis;
 		word-break: break-all;
+	    -webkit-flex-grow: 0;
+	    flex-grow: 0;
 		min-width: 8em;
 		max-width: 8em;
+		width: auto;
 	    -webkit-transition: max-width 200ms ease-in-out;
 	    transition: max-width 200ms ease-in-out;
 	}
 
 	.line:hover .sender {
 		max-width: 100%;
+		width: auto;
 		word-break: initial;
 	}
 
-	.line .time {	
+	.line .time {
+	    -webkit-flex-grow: 0;
+	    flex-grow: 0;
 	    -webkit-order: 10;
 	    order: 10;
-	    opacity: 0;
-	    -webkit-transform: translateX(100px);
-	    transform: translateX(100px);
-	    -webkit-transition: opacity 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
-	    transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
 	}
 
-	.line:hover .time {
-		opacity: 1;
-	    -webkit-transform: translateX(0);
-	    transform: translateX(0);
+	.line .message {
+		width: auto;
+	    padding: 0 0.5em;
 	}
 
 	.line.event .message {
