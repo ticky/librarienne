@@ -92,8 +92,8 @@ a:link:hover {
 }
 
 #topic_bar {
-	background: rgba(241, 241, 241, 0.8);
-	border-bottom: 1px solid rgba(128, 128, 128, 0.8);
+	background: rgba(238, 238, 238, 0.8);
+	border-bottom: 1px solid rgba(166, 166, 166, 0.8);
 	position: fixed;
 	position: -webkit-sticky;
 	position: sticky;
