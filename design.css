@@ -143,6 +143,29 @@ a:link:hover {
 	border-color: #dedede;
 }
 
+.line[highlight] {
+	background-color: hsla(270, 50%, 57%, 0.1);
+	border-color: hsla(270, 50%, 57%, 0.3);
+}
+
+.line[highlight] .sender,
+.line[highlight] .inline_nickname,
+.line[highlight] a:link {
+	text-shadow: .15em .15em 0 #eee,
+		.15em 0 0 #eee,
+		.15em -.15em 0 #eee,
+		0 -.15em 0 #eee,
+		-.15em -.15em 0 #eee,
+		-.15em 0 0 #eee,
+		-.15em .15em 0 #eee,
+		0 .15em 0 #eee;
+}
+
+.line[highlight] .sender,
+.line[highlight] .inline_nickname {
+	padding-right: .15em;
+}
+
 #mark {
 	display: none;
 }
