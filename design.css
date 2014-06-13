@@ -236,6 +236,15 @@ a:link:hover {
     padding: 0 0.5em;
 }
 
+/* Actions starting with punctuation are formatted to align with nickname */
+.line.action[message^=','] .message,
+.line.action[message^=':'] .message,
+.line.action[message^='.'] .message,
+.line.action[message^='!'] .message,
+.line.action[message^='?'] .message {
+	padding-left: 0;
+}
+
 .line.action .time {
 	-webkit-order: 10;
 }
