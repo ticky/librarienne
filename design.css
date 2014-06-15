@@ -95,9 +95,12 @@ a:link:hover {
 	border-bottom: 1px solid rgba(166, 166, 166, 0.8);
 	position: fixed;
 	position: -webkit-sticky;
+	position: -moz-sticky;
 	position: sticky;
 	top: 0;
 	width: 100%;
+	left: 0;
+	right: 0;
 	-webkit-flex-shrink: 0;
 	flex-shrink: 0;
 	font-size: 1.2em;
@@ -106,8 +109,7 @@ a:link:hover {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
-	word-break: break-all;
-    word-break: break-word; /* WebKit */
+    word-break: break-word;
 }
 
 #topic_bar:hover {
@@ -247,6 +249,7 @@ a:link:hover {
 
 .line.action .time {
 	-webkit-order: 10;
+	order: 10;
 }
 
 .line.action .sender,
@@ -276,9 +279,9 @@ a:link:hover {
 	flex-grow: 1;
     -webkit-order: 5;
     order: 5;
-	word-break: break-all;
-    word-break: break-word; /* WebKit */
+    word-break: break-word;
     -webkit-hyphens: auto;
+    -moz-hyphens: auto;
     hyphens: auto;
     width: 100%;
 }

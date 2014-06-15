@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 	<head>
+		<meta name="viewport" content="width=device-width,initial-scale=1">
 		<style type="text/css">
 
 			body {
@@ -63,7 +64,7 @@
 
 						var messageXhr = new XMLHttpRequest(),
 							messageArgs = arguments;
-							messageXhr.open("GET", "Data/templates/newMessagePostedWithoutSender.mustache", true);
+							messageXhr.open("GET", "Data/Templates/newMessagePostedWithoutSender.mustache", true);
 
 						messageXhr.onload = function() {
 							this.newMessagePostedWithoutSender = messageXhr.responseText;
@@ -124,7 +125,7 @@
 
 						var messageXhr = new XMLHttpRequest(),
 							messageArgs = arguments;
-							messageXhr.open("GET", "Data/templates/newMessagePostedWithSender.mustache", true);
+							messageXhr.open("GET", "Data/Templates/newMessagePostedWithSender.mustache", true);
 
 						messageXhr.onload = function() {
 							this.newMessagePostedWithSender = messageXhr.responseText;
@@ -151,7 +152,7 @@
 					}
 				};
 
-				mainXhr.open("GET", "Data/templates/baseLayout.mustache", true);
+				mainXhr.open("GET", "Data/Templates/baseLayout.mustache", true);
 
 				mainXhr.onload = function(e) {
 					channelFrame.contentDocument.body.innerHTML = Mustache.render(this.responseText, {
