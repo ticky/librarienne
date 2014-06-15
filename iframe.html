@@ -1,0 +1,233 @@
+<!doctype html>
+<html>
+	<head>
+		<style type="text/css">
+
+			body {
+				margin: 0;
+				padding: 0;
+				width: 100%;
+				height: 100%;
+			}
+
+			#channelframe {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+			}
+
+		</style>
+		<script type="text/javascript" src="js/mustache.js"></script>
+	</head>
+	<body>
+		<iframe id="channelframe" src="about:blank" frameborder="0"></iframe>
+		<script type="text/javascript">
+
+			(function() {
+
+				// Whoa there, this is hacky as heck; please don't take this to be the kind of standard of work I do!!!
+
+				var channelFrame = document.getElementById('channelframe'),
+					browserName = 'Safari',
+					userNick = 'WebUser',
+					lineNumber = Math.floor(Math.random() * 1000000000),
+					mainXhr = new XMLHttpRequest();
+
+				function addMessageWithoutSender(lineType, formattedMessage) {
+
+					function actuallyAddMessageWithoutSender(lineType, formattedMessage) {
+						channelFrame.contentDocument.getElementById('body_home').innerHTML += Mustache.render(this.newMessagePostedWithoutSender, {
+							lineNumber: (lineNumber++).toString(16),
+							lineType: lineType,
+							lineRenderTime: Date.now(),
+							formattedTimestamp: (function() {
+								var now = new Date(),
+									hours = now.getHours().toString(10),
+									minutes = now.getMinutes().toString(10);
+
+								if (hours.length < 2) {
+									hours = '0' + hours;
+								}
+								if (minutes.length < 2) {
+									minutes = '0' + minutes;
+								}
+
+								return [hours, minutes].join(':');
+							}()),
+							formattedMessage: formattedMessage
+						});
+						channelFrame.contentWindow.Textual.scrollToBottomOfView();
+					}
+
+					if (!this.newMessagePostedWithoutSender) {
+
+						var messageXhr = new XMLHttpRequest(),
+							messageArgs = arguments;
+							messageXhr.open("GET", "Data/templates/newMessagePostedWithoutSender.mustache", true);
+
+						messageXhr.onload = function() {
+							this.newMessagePostedWithoutSender = messageXhr.responseText;
+
+							actuallyAddMessageWithoutSender.apply(this, messageArgs);
+						}.bind(this);
+
+						messageXhr.send();
+
+					} else {
+
+						actuallyAddMessageWithoutSender.apply(this, arguments);
+
+					}
+
+				}
+
+				function addMessageWithSender(lineType, myself, nickname, colorNumber, isHighlight, formattedMessage) {
+
+					function actuallyAddMessageWithSender(lineType, myself, nickname, colorNumber, isHighlight, formattedMessage) {
+						channelFrame.contentDocument.getElementById('body_home').innerHTML += Mustache.render(this.newMessagePostedWithSender, {
+							lineNumber: (lineNumber++).toString(16),
+							lineType: lineType,
+							lineRenderTime: Date.now(),
+							isEncrypted: false,
+							isHighlight: isHighlight,
+							nicknameType: (myself ? "myself" : "normal"),
+							nicknameColorHashingEnabled: true,
+							nicknameColorNumber: colorNumber || 0,
+							formattedTimestamp: (function() {
+								var now = new Date(),
+									hours = now.getHours().toString(10),
+									minutes = now.getMinutes().toString(10);
+
+								if (hours.length < 2) {
+									hours = '0' + hours;
+								}
+								if (minutes.length < 2) {
+									minutes = '0' + minutes;
+								}
+
+								return [hours, minutes].join(':');
+							}()),
+							nickname: nickname,
+							formattedNickname: nickname,
+							message: (function() {
+								var el = document.createElement('el');
+									el.innerHTML = formattedMessage;
+
+									return el.textContent;
+							}()),
+							formattedMessage: formattedMessage
+						});
+						channelFrame.contentWindow.Textual.scrollToBottomOfView();
+					}
+
+					if (!this.newMessagePostedWithSender) {
+
+						var messageXhr = new XMLHttpRequest(),
+							messageArgs = arguments;
+							messageXhr.open("GET", "Data/templates/newMessagePostedWithSender.mustache", true);
+
+						messageXhr.onload = function() {
+							this.newMessagePostedWithSender = messageXhr.responseText;
+
+							actuallyAddMessageWithSender.apply(this, messageArgs);
+						}.bind(this);
+
+						messageXhr.send();
+
+					} else {
+
+						actuallyAddMessageWithSender.apply(this, arguments);
+
+					}
+
+				}
+
+				channelFrame.contentWindow.Textual = {
+					viewPositionMovedToBottom: function() {},
+					topicDoubleClicked: function() {},
+					scrollToBottomOfView: function() {
+						channelFrame.contentDocument.body.scrollTop = channelFrame.contentDocument.body.scrollHeight;
+						channelFrame.contentWindow.Textual.viewPositionMovedToBottom();
+					}
+				};
+
+				mainXhr.open("GET", "Data/templates/baseLayout.mustache", true);
+
+				mainXhr.onload = function(e) {
+					channelFrame.contentDocument.body.innerHTML = Mustache.render(this.responseText, {
+						userConfiguredTextEncoding: 'utf-8',
+						activeStyleAbsolutePath: location.href.replace('iframe.html',''),
+						applicationResourcePath: location.href.replace('iframe.html','Textual'),
+						cacheToken: 'abcd',
+						userConfiguredFontName: 'Helvetica',
+						userConfiguredFontSize: 9,
+						preferredMaximumWidth: 512,
+						viewTypeToken: 'channel',
+						isChannelView: true,
+						channelName: '#demo',
+						isPrivateMessageView: false,
+						textDirectionToken: 'ltr',
+						configuredServerName: 'Demo Server',
+						formattedTopicValue: '#demo: Fake Channel for demonstration of style'
+					});
+
+					Array.prototype.forEach.call(channelFrame.contentDocument.getElementsByTagName('script'), function(script) {
+						var newScript = channelFrame.contentDocument.createElement('script');
+							newScript.src = script.src;
+
+						script.parentNode.removeChild(script);
+
+						channelFrame.contentDocument.head.appendChild(newScript);
+					});
+
+					addMessageWithoutSender('join event', '<b>' + userNick + '</b> (~' + userNick + '@' + browserName + ') joined the channel');
+					addMessageWithoutSender('topic event', 'Topic is #demo: Fake Channel for demonstration of style');
+					addMessageWithoutSender('topic event', 'Set by <b>jessica</b> on 15 June 2014 1:24:10 pm AEST');
+
+					setTimeout(function() {
+						console.log(channelFrame.contentWindow.Textual.viewFinishedLoading);
+						channelFrame.contentWindow.Textual.viewFinishedLoading();
+					}, 1500);
+
+					// Messaging Script starts here
+
+					setTimeout(function() {
+						addMessageWithSender('privmsg text', false, 'jessica', 14, true, 'Hi, ' + userNick + '! Welcome to the demo of my Textual theme!');
+					}, 2500);
+					setTimeout(function() {
+						addMessageWithSender('privmsg text', false, 'jessica', 14, false, 'This demo is pre-recorded (obviously!!!)');
+					}, 3500);
+					setTimeout(function() {
+						addMessageWithSender('privmsg text', false, 'jessica', 14, false, 'Feel free to poke around. You can write messages to this channel, and use the /me command.');
+					}, 4500);
+					setTimeout(function() {
+						addMessageWithSender('action text', false, 'jessica', 14, false, 'hopes you enjoy the theme!');
+					}, 5500);
+					setTimeout(function() {
+						addMessageWithSender('privmsg text', false, 'SomeoneWithAVeryLongName', 22, false, 'I\'ve got a long nickname which gets cut off! I wonder what happens if you hover over this message?');
+					}, 7500);
+					setTimeout(function() {
+						addMessageWithSender('privmsg text', false, 'LongMessageMan', 1, false, 'I like to write very, very, very long messages. Jessica invited me here to show off the very latest in CSS Hyphenation technlogy (which only works properly in Safari!) - if you resize your browser (or, for that matter, Textual) window, longer words are hyphenated automatically. I think it\'s pretty cool!');
+					}, 12600);
+				};
+
+				mainXhr.send();
+
+				window.addEventListener('message', function(event) {
+					var message = event.data.trim();
+					if (message.indexOf('/me') === 0) {
+						addMessageWithSender('action text', true, userNick, 14, false, message.replace(/^\/me /i, ''));
+					} else if (message.indexOf('/nick') === 0) {
+						var nick = message.replace(/^\/nick /i, '')
+						addMessageWithoutSender('join event', userNick + ' is now known as <b>' + nick + '</b>');
+						userNick = nick;
+					} else {
+						addMessageWithSender('privmsg text', true, userNick, 14, false, message);
+					}
+				});
+
+			}());
+
+		</script>
+	</body>
+</html>
