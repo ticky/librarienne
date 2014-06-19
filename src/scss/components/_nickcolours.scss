@@ -1,0 +1,44 @@
+// Nickname Colours for Jessica's Fancy New Style
+
+// Saturation and Luminance values of the colour.
+$saturation: 58%;
+$luminance: 43%;
+
+@if $dark-mode {
+	$saturation: 50%;
+	$luminance: 57%;
+}
+
+// The nick colour for the user; in this case, a nice purple.
+$myself-nick-colour: 24;
+
+$loop-nick-number: 0;
+@while $loop-nick-number <= 31 {
+
+	@if $loop-nick-number < $myself-nick-colour {
+
+		.line[nick-color-number='#{$loop-nick-number}'] .sender,
+		.inline_nickname[nick-color-number='#{$loop-nick-number}'] {
+			color: hsl(360 / 32 * $loop-nick-number, $saturation, $luminance);
+		}
+
+	} @else if $loop-nick-number == $myself-nick-colour {
+
+		/* 'self' needs to be more specific, so we preix with `div` */
+		div.line[ltype*='myself'] .sender,
+		div.line[mtype*='myself'] .sender {
+			color: hsl(360 / 32 * $loop-nick-number, $saturation, $luminance); 
+		}
+
+	} @else {
+
+		.line[nick-color-number='#{$loop-nick-number + 1}'] .sender,
+		.inline_nickname[nick-color-number='#{$loop-nick-number + 1}'] {
+			color: hsl(360 / 32 * $loop-nick-number, $saturation, $luminance);
+		}
+
+	}
+
+	$loop-nick-number: $loop-nick-number + 1;
+
+}

@@ -1,0 +1,5 @@
+@mixin user-select($type: text) {
+	-webkit-user-select: $type;
+	-moz-user-select: $type;
+	user-select: $type;
+}

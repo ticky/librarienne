@@ -1,0 +1,18 @@
+{
+  "title": "Jessica's Fancy New Style",
+  "name": "jesscas-fancy-new-style",
+  "version": "0.3.0",
+  "description": "A Style for the Textual IRC client",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.8.1",
+    "gulp-clean": "^0.3.0",
+    "gulp-ruby-sass": "^0.5.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:geoffstokes/fancy-new-style.git"
+  },
+  "author": "Jessica Stokes <hello@jessicastokes.net>",
+  "license": "MIT"
+}
