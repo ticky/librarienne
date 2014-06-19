@@ -1,0 +1,434 @@
+@import 'mixins/flexbox';
+@import 'mixins/sticky';
+@import 'mixins/user-select';
+
+@import 'theme';
+
+$dark-mode: lightness($primary-background) < 50%;
+
+$topic-border-color: rgba(166, 166, 166, 0.8);
+
+$link-color: #4b7fd4;
+
+@if $dark-mode {
+	$link-color: hsl(hue($link-color), saturation($link-color), 100% - lightness($link-color));
+}
+
+$row-hover-colour-change: 7.5%;
+
+$breakpoint: 480px;
+
+$transition-time: 200ms;
+
+@import 'components/nickcolours';
+
+* {
+	box-sizing: border-box;
+	text-rendering: optimizeLegibility;
+}
+
+body {
+	background-color: $primary-background;
+	color: $primary-foreground;
+	min-height: 100vh;
+	margin: 0;
+	overflow-x: hidden;
+	@include flex();
+	@include flex-direction(column);
+	@include align-items(center);
+	@include justify-content(flex-end);
+}
+
+h1, b {
+	font-weight: bolder;
+}
+
+small {
+	font-size: 1em;
+	opacity: 0.8;
+	font-weight: lighter;
+}
+
+a:link {
+	color: #4b7fd4;
+	text-decoration: none;
+	-webkit-hyphens: none;
+	hyphens: none;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+#loading_screen {
+	background-color: $primary-background;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding: 2em;
+	z-index: 999;
+	transition: opacity $transition-time ease-in-out;
+	@include flex();
+	@include flex-direction(column);
+	@include align-items(center);
+	@include justify-content(center);
+}
+
+#body_intro {
+	flex-shrink: 0;
+	width: 100%;
+	height: 50vh;
+	margin: 0;
+	padding: 1em;
+	text-align: right;
+	@include flex-shrink(0);
+	@include flex();
+	@include flex-direction(column);
+	@include align-items(right);
+	@include justify-content(flex-end);
+
+	h1 {
+
+		margin: 0;
+
+		small {
+			@include user-select(none);
+		}
+
+	}
+}
+
+#body_home {
+	width: 100%;
+	margin: 0.5em 0;
+}
+
+#topic_bar {
+	background-color: transparentize($primary-background, 0.2);
+	border-bottom: 1px solid $topic-border-color;
+	@include sticky();
+	top: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
+	@include flex-shrink(0);
+	font-size: 1.2em;
+	line-height: 2em;
+	padding: 0 1em;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+    word-break: break-word;
+
+	&:hover {
+		white-space: initial;
+	}
+
+	&:before {
+		content: 'The topic is';
+		opacity: 0.8;
+		margin-right: 0.5em;
+		@include user-select(none);
+	}
+}
+
+.line {
+
+	width: 100%;
+	padding: 0.1em 1em;
+	line-height: 1.5em;
+	background-color: transparent;
+	border-top: 1px solid transparent;
+	border-bottom: 1px solid transparent;
+	@include flex();
+	@include flex-direction(row);
+	@include align-content(space-between);
+	@include flex-wrap(wrap);
+    -webkit-transition: background-color $transition-time ease-in-out, border-color $transition-time ease-in-out;
+    transition: background-color $transition-time ease-in-out, border-color $transition-time ease-in-out;
+
+    @media (min-width: $breakpoint) {
+
+    	@include flex-wrap(nowrap);
+    }
+
+	.sender {
+
+	    @include flex-shrink(0);
+	    @include flex-grow(1);
+	    @include order(1);
+	    width: 50%;
+		font-weight: bolder;
+
+		@media (min-width: $breakpoint) {
+
+			text-align: right;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			word-break: break-all;
+		    @include flex-grow(0);
+			min-width: 8em;
+			max-width: 8em;
+			width: auto;
+		    -webkit-transition: max-width $transition-time ease-in-out;
+		    transition: max-width $transition-time ease-in-out;
+		}
+	}
+
+	.message {
+
+		@include flex-grow(1);
+	    @include order(5);
+	    word-break: break-word;
+	    -webkit-hyphens: auto;
+	    -moz-hyphens: auto;
+	    hyphens: auto;
+	    width: 100%;
+
+	    @media (min-width: $breakpoint) {
+
+			width: auto;
+		    padding: 0 0.5em;
+	    }
+	}
+
+	.time {
+
+	    @include flex-shrink(0);
+	    @include flex-grow(1);
+	    @include order(5);
+	    text-align: right;
+	    opacity: 0;
+	    -webkit-transform: translateX(100px);
+	    transform: translateX(100px);
+	    -webkit-transition: opacity $transition-time ease-in-out, -webkit-transform $transition-time ease-in-out;
+	    transition: opacity $transition-time ease-in-out, transform $transition-time ease-in-out;
+
+	    @media (min-width: $breakpoint) {
+
+		    @include flex-grow(0);
+		    @include order(10);
+	    }
+	}
+
+	&.action {
+
+		@include flex-wrap(nowrap);
+
+		.sender {
+		
+			width: auto;
+		    @include flex-grow(0);
+		}
+		
+		.message {
+		
+		    padding: 0 0.5em;
+		}
+
+		.sender,
+		.message {
+			font-style: italic;
+		}
+
+		.time {
+			-webkit-order: 10;
+			order: 10;
+		}
+
+		/* Actions starting with punctuation are formatted to align with nickname */
+		&[message^=','],
+		&[message^=':'],
+		&[message^='.'],
+		&[message^='!'],
+		&[message^='?'] {
+
+			.message {
+
+				padding-left: 0;
+			}
+		}
+	}
+
+	&.event {
+
+		@include flex-wrap(nowrap);
+
+		@if $dark-mode {
+
+			color: darken($primary-foreground, 25%);
+
+		} @else {
+
+			color: lighten($primary-foreground, 25%);
+
+		}
+
+		.message {
+
+			width: auto;
+
+			@media (min-width: 480px) {
+
+				margin-left: 8em;
+			}
+		}
+
+		.time {
+
+		    @include flex-grow(0);
+		    @include order(10);
+		}
+	}
+
+	&:hover {
+
+		@if $dark-mode {
+
+			background-color: lighten($primary-background, $row-hover-colour-change);
+			border-color: lighten($primary-background, $row-hover-colour-change * 2);
+
+		} @else {
+
+			background-color: darken($primary-background, $row-hover-colour-change);
+			border-color: darken($primary-background, $row-hover-colour-change * 2);
+
+		}
+
+		.sender {
+
+			@media (min-width: 480px) {
+
+				max-width: 100%;
+				width: auto;
+				word-break: initial;
+			}
+		}
+
+		.time {
+
+			opacity: 1;
+		    -webkit-transform: translateX(0);
+		    transform: translateX(0);
+		}
+	}
+
+	// Chatting with a znc service; use monospaced fonts
+	&[nickname^="*"] .message {
+
+		font-family: 'Menlo', 'Monaco', monospace;
+	}
+
+	// Lines where current user was highlighted
+	&[highlight] {
+
+		background-color: hsla(270, 50%, 57%, 0.1);
+		border-color: hsla(270, 50%, 57%, 0.3);
+
+		.sender,
+		.inline_nickname,
+		a:link {
+
+			text-shadow: .15em .15em 0 $primary-background,
+				.15em 0 0 $primary-background,
+				.15em -.15em 0 $primary-background,
+				0 -.15em 0 $primary-background,
+				-.15em -.15em 0 $primary-background,
+				-.15em 0 0 $primary-background,
+				-.15em .15em 0 $primary-background,
+				0 .15em 0 $primary-background;
+		}
+
+		.sender,
+		.inline_nickname {
+
+			padding-right: .15em;
+		}
+	}
+
+	// Lines after mark are highlighted
+
+	#mark ~ &:not([highlight]) {
+
+		@if $dark-mode {
+
+			background-color: lighten($primary-background, $row-hover-colour-change / 2);
+
+		} @else {
+
+			background-color: darken($primary-background, $row-hover-colour-change / 2);
+
+		}
+
+		&:hover {
+
+			@if $dark-mode {
+
+				background-color: lighten($primary-background, $row-hover-colour-change * 0.75);
+				border-color: lighten($primary-background, $row-hover-colour-change * 1.5);
+
+			} @else {
+
+				background-color: darken($primary-background, $row-hover-colour-change * 0.75);
+				border-color: darken($primary-background, $row-hover-colour-change * 1.5);
+
+			}
+		}
+
+		&:last-child {
+
+			@if $dark-mode {
+
+				border-bottom: 1px solid  lighten($primary-background, $row-hover-colour-change);
+
+			} @else {
+
+				border-bottom: 1px solid  darken($primary-background, $row-hover-colour-change);
+
+			}
+		}
+	}
+
+	#mark + &:not([highlight]) {
+
+			@if $dark-mode {
+
+				border-top: 1px solid  lighten($primary-background, $row-hover-colour-change);
+
+			} @else {
+
+				border-top: 1px solid  darken($primary-background, $row-hover-colour-change);
+
+			}
+	}
+}
+
+#mark {
+
+	display: none;
+}
+
+.inline_nickname {
+
+	font-weight: bolder;
+}
+
+.inline_image {
+
+	@include user-select(none);
+
+	img {
+
+		max-width: 100%;
+		max-height: 60vh;
+		padding: .25em;
+		background-color: invert($primary-background);
+		border: 1px solid #ccc;
+		border-radius: .25em;
+	}
+}
+
+
