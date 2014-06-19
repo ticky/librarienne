@@ -31,6 +31,8 @@ small {
 
 a:link {
 	text-decoration: none;
+	-webkit-hyphens: none;
+	hyphens: none;
 }
 
 a:link:hover {
