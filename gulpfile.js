@@ -5,6 +5,7 @@
 	var gulp = require('gulp'),
 		clean = require('gulp-clean'),
 		sass = require('gulp-ruby-sass'),
+		zip = require('gulp-zip'),
 		theme = require('./package');
 
 	function buildTheme(name) {
@@ -49,6 +50,12 @@
 
 	gulp.task('default', function() {
 		gulp.start('classic', 'nox');
+	});
+
+	gulp.task('zip', ['classic', 'nox'], function() {
+		gulp.src('./build/**/*')
+			.pipe(zip(theme.title + ' ' + theme.version + '.zip'))
+			.pipe(gulp.dest('./dist/'))
 	});
 
 }());
