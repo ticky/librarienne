@@ -32,8 +32,8 @@ $loop-nick-number: 0;
 
 	} @else {
 
-		.line[nick-color-number='#{$loop-nick-number + 1}'] .sender,
-		.inline_nickname[nick-color-number='#{$loop-nick-number + 1}'] {
+		.line[nick-color-number='#{$loop-nick-number - 1}'] .sender,
+		.inline_nickname[nick-color-number='#{$loop-nick-number - 1}'] {
 			color: hsl(360 / 32 * $loop-nick-number, $saturation, $luminance);
 		}
 
