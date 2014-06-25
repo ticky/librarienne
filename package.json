@@ -1,7 +1,7 @@
 {
   "title": "Jessica's Fancy New Style",
   "name": "jesscas-fancy-new-style",
-  "version": "0.3.0",
+  "version": "0.4.1",
   "description": "A Style for the Textual IRC client",
   "dependencies": {},
   "devDependencies": {
