@@ -410,15 +410,15 @@ a:link {
 
 	#mark + &:not([highlight]) {
 
-			@if $dark-mode {
+		@if $dark-mode {
 
-				border-top: 1px solid  lighten($primary-background, $row-hover-colour-change);
+			border-top: 1px solid lighten($primary-background, $row-hover-colour-change);
 
-			} @else {
+		} @else {
 
-				border-top: 1px solid  darken($primary-background, $row-hover-colour-change);
+			border-top: 1px solid darken($primary-background, $row-hover-colour-change);
 
-			}
+		}
 	}
 }
 
@@ -447,4 +447,36 @@ a:link {
 	}
 }
 
+.inline_opengraph {
 
+	border-width: 1px;
+	border-style: solid;
+	background-color: $primary-background;
+	padding: 0.5em;
+
+	@if $dark-mode {
+
+		border-color: lighten($primary-background, $row-hover-colour-change);
+
+	} @else {
+
+		border-color: darken($primary-background, $row-hover-colour-change);
+
+	}
+
+	img {
+
+		display: inline-block;
+		max-width: 20%;
+		max-height: 40vh;
+		padding: .25em;
+		background-color: invert($primary-background);
+		border: 1px solid #ccc;
+		border-radius: .25em;
+	}
+
+	.details {
+
+		display: inline-block;
+	}
+}
