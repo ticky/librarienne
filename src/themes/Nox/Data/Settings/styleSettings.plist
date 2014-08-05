@@ -4,9 +4,11 @@
 <dict>
 	<key>Force Invert Sidebars</key>
 	<true/>
-	<key>Underlying Window Color</key>
-	<string>#222222</string>
+	<key>Key-value Store Name</key>
+	<string>fancy-new-style</string>
 	<key>Template Engine Version</key>
 	<integer>2</integer>
+	<key>Underlying Window Color</key>
+	<string>#222222</string>
 </dict>
 </plist>

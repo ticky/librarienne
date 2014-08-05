@@ -120,7 +120,8 @@ a:link {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
-    word-break: break-word;
+	word-break: break-word;
+	z-index: 1;
 
 	&:hover {
 		white-space: initial;
@@ -146,20 +147,20 @@ a:link {
 	@include flex-direction(row);
 	@include align-content(space-between);
 	@include flex-wrap(wrap);
-    -webkit-transition: background-color $transition-time ease-in-out, border-color $transition-time ease-in-out;
-    transition: background-color $transition-time ease-in-out, border-color $transition-time ease-in-out;
+	-webkit-transition: background-color $transition-time ease-in-out, border-color $transition-time ease-in-out;
+	transition: background-color $transition-time ease-in-out, border-color $transition-time ease-in-out;
 
-    @media (min-width: $breakpoint) {
+	@media (min-width: $breakpoint) {
 
-    	@include flex-wrap(nowrap);
-    }
+		@include flex-wrap(nowrap);
+	}
 
-	.sender {
+	.senderContainer {
 
-	    @include flex-shrink(0);
-	    @include flex-grow(1);
-	    @include order(1);
-	    width: 50%;
+		@include flex-shrink(0);
+		@include flex-grow(1);
+		@include order(1);
+		width: 50%;
 		font-weight: bolder;
 
 		@media (min-width: $breakpoint) {
@@ -169,67 +170,67 @@ a:link {
 			overflow: hidden;
 			text-overflow: ellipsis;
 			word-break: break-all;
-		    @include flex-grow(0);
+			@include flex-grow(0);
 			min-width: 8em;
 			max-width: 8em;
 			width: auto;
-		    -webkit-transition: max-width $transition-time ease-in-out;
-		    transition: max-width $transition-time ease-in-out;
+			-webkit-transition: max-width $transition-time ease-in-out;
+			transition: max-width $transition-time ease-in-out;
 		}
 	}
 
 	.message {
 
 		@include flex-grow(1);
-	    @include order(5);
-	    word-break: break-word;
-	    -webkit-hyphens: auto;
-	    -moz-hyphens: auto;
-	    hyphens: auto;
-	    width: 100%;
+		@include order(5);
+		word-break: break-word;
+		-webkit-hyphens: auto;
+		-moz-hyphens: auto;
+		hyphens: auto;
+		width: 100%;
 
-	    @media (min-width: $breakpoint) {
+		@media (min-width: $breakpoint) {
 
 			width: auto;
-		    padding: 0 0.5em;
-	    }
+			padding: 0 0.5em;
+		}
 	}
 
 	.time {
 
-	    @include flex-shrink(0);
-	    @include flex-grow(1);
-	    @include order(5);
-	    text-align: right;
-	    opacity: 0;
-	    -webkit-transform: translateX(100px);
-	    transform: translateX(100px);
-	    -webkit-transition: opacity $transition-time ease-in-out, -webkit-transform $transition-time ease-in-out;
-	    transition: opacity $transition-time ease-in-out, transform $transition-time ease-in-out;
+		@include flex-shrink(0);
+		@include flex-grow(1);
+		@include order(5);
+		text-align: right;
+		opacity: 0;
+		-webkit-transform: translateX(100px);
+		transform: translateX(100px);
+		-webkit-transition: opacity $transition-time ease-in-out, -webkit-transform $transition-time ease-in-out;
+		transition: opacity $transition-time ease-in-out, transform $transition-time ease-in-out;
 
-	    @media (min-width: $breakpoint) {
+		@media (min-width: $breakpoint) {
 
-		    @include flex-grow(0);
-		    @include order(10);
-	    }
+			@include flex-grow(0);
+			@include order(10);
+		}
 	}
 
 	&.action {
 
 		@include flex-wrap(nowrap);
 
-		.sender {
+		.senderContainer {
 		
 			width: auto;
-		    @include flex-grow(0);
+			@include flex-grow(0);
 		}
 		
 		.message {
 		
-		    padding: 0 0.5em;
+			padding: 0 0.5em;
 		}
 
-		.sender,
+		.senderContainer,
 		.message {
 			font-style: italic;
 		}
@@ -240,16 +241,9 @@ a:link {
 		}
 
 		/* Actions starting with punctuation are formatted to align with nickname */
-		&[message^=','],
-		&[message^=':'],
-		&[message^='.'],
-		&[message^='!'],
-		&[message^='?'] {
+		&.punctuated .message {
 
-			.message {
-
-				padding-left: 0;
-			}
+			padding-left: 0;
 		}
 	}
 
@@ -279,8 +273,30 @@ a:link {
 
 		.time {
 
-		    @include flex-grow(0);
-		    @include order(10);
+			@include flex-grow(0);
+			@include order(10);
+		}
+	}
+
+	&.repeated-nickname:not(.action) {
+
+		.senderContainer {
+
+			opacity: 0;
+			-webkit-transform: translateX(-10em);
+			transform: translateX(-10em);
+			-webkit-transition: opacity $transition-time ease-in-out, -webkit-transform $transition-time ease-in-out;
+			transition: opacity $transition-time ease-in-out, transform $transition-time ease-in-out;
+		}
+
+		&:hover {
+
+			.senderContainer {
+
+				opacity: 1;
+				-webkit-transform: translateX(0);
+				transform: translateX(0);
+			}
 		}
 	}
 
@@ -298,7 +314,7 @@ a:link {
 
 		}
 
-		.sender {
+		.senderContainer {
 
 			@media (min-width: 480px) {
 
@@ -311,8 +327,8 @@ a:link {
 		.time {
 
 			opacity: 1;
-		    -webkit-transform: translateX(0);
-		    transform: translateX(0);
+			-webkit-transform: translateX(0);
+			transform: translateX(0);
 		}
 	}
 
@@ -328,7 +344,7 @@ a:link {
 		background-color: hsla(270, 50%, 57%, 0.1);
 		border-color: hsla(270, 50%, 57%, 0.3);
 
-		.sender,
+		.senderContainer,
 		.inline_nickname,
 		a:link {
 
@@ -342,7 +358,7 @@ a:link {
 				0 .15em 0 $primary-background;
 		}
 
-		.sender,
+		.senderContainer,
 		.inline_nickname {
 
 			padding-right: .15em;
@@ -363,6 +379,19 @@ a:link {
 
 		}
 
+		&:last-child {
+
+			@if $dark-mode {
+
+				border-bottom: 1px solid  lighten($primary-background, $row-hover-colour-change);
+
+			} @else {
+
+				border-bottom: 1px solid  darken($primary-background, $row-hover-colour-change);
+
+			}
+		}
+
 		&:hover {
 
 			@if $dark-mode {
@@ -374,19 +403,6 @@ a:link {
 
 				background-color: darken($primary-background, $row-hover-colour-change * 0.75);
 				border-color: darken($primary-background, $row-hover-colour-change * 1.5);
-
-			}
-		}
-
-		&:last-child {
-
-			@if $dark-mode {
-
-				border-bottom: 1px solid  lighten($primary-background, $row-hover-colour-change);
-
-			} @else {
-
-				border-bottom: 1px solid  darken($primary-background, $row-hover-colour-change);
 
 			}
 		}

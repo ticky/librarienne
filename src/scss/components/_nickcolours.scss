@@ -17,7 +17,7 @@ $loop-nick-number: 0;
 
 	@if $loop-nick-number < $myself-nick-colour {
 
-		.line[nick-color-number='#{$loop-nick-number}'] .sender,
+		.line[nick-color-number='#{$loop-nick-number}'] .senderContainer,
 		.inline_nickname[nick-color-number='#{$loop-nick-number}'] {
 			color: hsl(360 / 32 * $loop-nick-number, $saturation, $luminance);
 		}
@@ -25,14 +25,14 @@ $loop-nick-number: 0;
 	} @else if $loop-nick-number == $myself-nick-colour {
 
 		/* 'self' needs to be more specific, so we preix with `div` */
-		div.line[ltype*='myself'] .sender,
-		div.line[mtype*='myself'] .sender {
+		div.line[ltype*='myself'] .senderContainer,
+		div.line[mtype*='myself'] .senderContainer {
 			color: hsl(360 / 32 * $loop-nick-number, $saturation, $luminance); 
 		}
 
 	} @else {
 
-		.line[nick-color-number='#{$loop-nick-number - 1}'] .sender,
+		.line[nick-color-number='#{$loop-nick-number - 1}'] .senderContainer,
 		.inline_nickname[nick-color-number='#{$loop-nick-number - 1}'] {
 			color: hsl(360 / 32 * $loop-nick-number, $saturation, $luminance);
 		}

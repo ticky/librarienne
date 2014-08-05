@@ -2,9 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Underlying Window Color</key>
-	<string>#eeeeee</string>
+	<key>Key-value Store Name</key>
+	<string>fancy-new-style</string>
 	<key>Template Engine Version</key>
 	<integer>2</integer>
+	<key>Underlying Window Color</key>
+	<string>#eeeeee</string>
 </dict>
 </plist>
