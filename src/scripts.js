@@ -9,7 +9,11 @@
 		],
 		fetchedUrls = [],
 		serverId,
-		channelId;
+		channelId,
+		checkShowRepeatedNicknames,
+		checkShowChannelIntro,
+		checkShowOpenGraphPreviews,
+		buttonClosePreferences;
 
 	function buildQuerySelectorAllAsArrayFunction(node) {
 
@@ -45,32 +49,32 @@
 		var querySelectorAllAsArray = buildQuerySelectorAllAsArrayFunction(doc);
 
 		var titles = querySelectorAllAsArray(
-				"meta[property='og:title']:not([content=''])"
+				'meta[property=\'og:title\']:not([content=\'\'])'
 			);
 			titles.push(doc.title);
 		
 		var descriptions = querySelectorAllAsArray([
-				"meta[name='description']:not([content=''])",
-				"meta[property='og:description']:not([content=''])"
+				'meta[name=\'description\']:not([content=\'\'])',
+				'meta[property=\'og:description\']:not([content=\'\'])'
 			].join(', '));
 		
 		var siteNames = querySelectorAllAsArray(
-				"meta[property='og:site_name']:not([content=''])"
+				'meta[property=\'og:site_name\']:not([content=\'\'])'
 			);
 		
 		var types = querySelectorAllAsArray(
-				"meta[property='og:type']:not([content=''])"
+				'meta[property=\'og:type\']:not([content=\'\'])'
 			);
 			types.push('website');
 		
 		var images = querySelectorAllAsArray([
-				"meta[property='og:image']:not([content=''])",
-				"meta[property='og:image:url']:not([content=''])"
+				'meta[property=\'og:image\']:not([content=\'\'])',
+				'meta[property=\'og:image:url\']:not([content=\'\'])'
 			].join(', '));
 		
 		var urls = querySelectorAllAsArray([
-				"link[rel='canonical']",
-				"meta[property='og:url']:not([content=''])"
+				'link[rel=\'canonical\']',
+				'meta[property=\'og:url\']:not([content=\'\'])'
 			].join(', '));
 
 		return {
@@ -92,18 +96,92 @@
 	Textual.fadeOutLoadingScreen = function() {
 
 		// Override loading screen fade
-		var loadingScreen = document.getElementById("loading_screen");
+		var loadingScreen = document.getElementById('loading_screen');
 		loadingScreen.style.opacity = 0;
 
 		setTimeout(function() {
-			loadingScreen.style.display = "none";
+			loadingScreen.style.display = 'none';
 		}, 250);
+
+	};
+
+	Textual.styleSettingDidChange = function(key) {
+
+		console.debug('Style setting "' + key + '\" changed to', app.styleSettingsRetrieveValue(key));
+
+		if (key === 'Show Repeated Nicknames') {
+
+			checkShowRepeatedNicknames.checked = app.styleSettingsRetrieveValue('Show Repeated Nicknames');
+
+			document.body.classList[checkShowRepeatedNicknames.checked === true ? 'add' : 'remove']('show-repeated-nicknames');
+
+		} else if (key === 'Hide Channel Intro') {
+
+			checkShowChannelIntro.checked = !app.styleSettingsRetrieveValue('Hide Channel Intro');
+
+			document.body.classList[checkShowChannelIntro.checked === true ? 'remove' : 'add']('hide-channel-intro');
+
+		}else if (key === 'Show Open Graph Previews') {
+
+			checkShowOpenGraphPreviews.checked = app.styleSettingsRetrieveValue('Show Open Graph Previews');
+
+			document.body.classList[checkShowOpenGraphPreviews.checked === true ? 'add' : 'remove']('show-open-graph-previews');
+
+		}
 
 	};
 
 	Textual.viewFinishedLoading = Textual.viewFinishedReload = function() {
 
-		console.debug("View Finished Loading");
+		console.debug('View Finished Loading');
+
+		console.debug(app.styleSettingsRetrieveValue instanceof Function);
+
+		// style settings supported; enable user style preferences
+		if (app.styleSettingsRetrieveValue instanceof Function) {
+
+			var buttonShowPreferences = document.createElement('button'),
+				bodyIntro = document.getElementById('body_intro');
+
+			buttonShowPreferences.appendChild(document.createTextNode('⌘'));
+
+			bodyIntro.appendChild(buttonShowPreferences);
+
+			checkShowRepeatedNicknames = document.getElementById('checkShowRepeatedNicknames');
+
+			checkShowChannelIntro = document.getElementById('checkShowChannelIntro');
+
+			checkShowOpenGraphPreviews = document.getElementById('checkShowOpenGraphPreviews');
+
+			buttonClosePreferences = document.getElementById('buttonClosePreferences');
+
+			checkShowRepeatedNicknames.addEventListener('click', function() {
+				app.styleSettingsSetValue('Show Repeated Nicknames', checkShowRepeatedNicknames.checked);
+			});
+
+			checkShowChannelIntro.addEventListener('click', function() {
+				app.styleSettingsSetValue('Hide Channel Intro', !checkShowChannelIntro.checked);
+			});
+
+			checkShowOpenGraphPreviews.addEventListener('click', function() {
+				app.styleSettingsSetValue('Show Open Graph Previews', checkShowOpenGraphPreviews.checked);
+			});
+
+			buttonShowPreferences.addEventListener('click', function() {
+				document.body.classList.add('show-preferences');
+			});
+
+			buttonClosePreferences.addEventListener('click', function() {
+				document.body.classList.remove('show-preferences');
+			});
+
+			Textual.styleSettingDidChange('Show Repeated Nicknames');
+
+			Textual.styleSettingDidChange('Hide Channel Intro');
+
+			Textual.styleSettingDidChange('Show Open Graph Previews');
+
+		}
 
 		Textual.scrollToBottomOfView();
 		Textual.fadeOutLoadingScreen();
@@ -112,7 +190,7 @@
 
 	Textual.newMessagePostedToView = function(lineNumber) {
 
-		var lineId = "line-" + lineNumber;
+		var lineId = 'line-' + lineNumber;
 
 		var line = document.getElementById(lineId);
 
@@ -134,9 +212,7 @@
 			line.classList.add('repeated-nickname');
 		}
 
-		if (app.styleSettingsRetrieveValue instanceof Function && line.classList.contains('text')) {
-		/*	&& app.styleSettingsRetrieveValue('Retrieve Link Metadata') === true
-			&& app.styleSettingsRetrieveValue('Retrieve Link Metadata for ' + serverId + ', ' + channelId) !== false) {*/
+		if (checkShowOpenGraphPreviews.checked === true && line.classList.contains('text')) {
 
 			var previewedImageUrls = querySelectorAllAsArray('a.inline_image:link').map(function(link) {
 				return link.href;
@@ -211,18 +287,18 @@
 						};
 						request.send();
 
-				};
+				}
 
 			});
 
 			if (ogpCandidates.length < 1) {
-				console.debug("No OGP candidates found...");
+				console.debug('No OGP candidates found...');
 			}
 
 		}
 
 	};
 
-	console.log("Theme Script Loaded");
+	console.log('Theme Script Loaded');
 
 }());

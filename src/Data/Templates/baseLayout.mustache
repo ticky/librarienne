@@ -86,5 +86,15 @@
 			<div id="topic_bar" ondblclick="Textual.topicDoubleClicked()">{{{formattedTopicValue}}}</div>
 		{{/isChannelView}}
 			<div id="body_home">{{! Filled at runtime. }}</div>
+			<div id="preferences">
+				<div class="box">
+					<div class="checkboxes">
+						<label><input id="checkShowRepeatedNicknames" type="checkbox"> Show nicknames for repeated messages from the same sender</label>
+						<label><input id="checkShowChannelIntro" type="checkbox" checked> Show channel intro</label>
+						<label><input id="checkShowOpenGraphPreviews" type="checkbox"> Enable inline Open Graph previews</label>
+					</div>
+					<button id="buttonClosePreferences">Close</button>
+				</div>
+			</div>
 	</body>
 </html>
