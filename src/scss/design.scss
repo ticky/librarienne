@@ -23,11 +23,13 @@ $transition-time: 200ms;
 @import 'components/nickcolours';
 
 * {
+
 	box-sizing: border-box;
 	text-rendering: optimizeLegibility;
 }
 
 body {
+
 	background-color: $primary-background;
 	color: $primary-foreground;
 	min-height: 100vh;
@@ -40,27 +42,32 @@ body {
 }
 
 h1, b {
+
 	font-weight: bolder;
 }
 
 small {
+
 	font-size: 1em;
 	opacity: 0.8;
 	font-weight: lighter;
 }
 
 a:link {
+
 	color: #4b7fd4;
 	text-decoration: none;
 	-webkit-hyphens: none;
 	hyphens: none;
 
 	&:hover {
+
 		text-decoration: underline;
 	}
 }
 
 #loading_screen {
+
 	background-color: $primary-background;
 	position: fixed;
 	top: 0;
@@ -77,7 +84,7 @@ a:link {
 }
 
 #body_intro {
-	flex-shrink: 0;
+
 	width: 100%;
 	height: 50vh;
 	margin: 0;
@@ -101,11 +108,13 @@ a:link {
 }
 
 #body_home {
+
 	width: 100%;
 	margin: 0.5em 0;
 }
 
 #topic_bar {
+
 	background-color: transparentize($primary-background, 0.2);
 	border-bottom: 1px solid $topic-border-color;
 	@include sticky();
@@ -124,10 +133,12 @@ a:link {
 	z-index: 1;
 
 	&:hover {
+
 		white-space: initial;
 	}
 
 	&:before {
+
 		content: 'The topic is';
 		opacity: 0.8;
 		margin-right: 0.5em;
@@ -449,8 +460,10 @@ a:link {
 
 .inline_opengraph {
 
+	@include flex();
 	border-width: 1px;
 	border-style: solid;
+	border-radius: .25em;
 	background-color: $primary-background;
 	padding: 0.5em;
 
@@ -464,19 +477,29 @@ a:link {
 
 	}
 
-	img {
+	.image_wrapper {
 
-		display: inline-block;
-		max-width: 20%;
-		max-height: 40vh;
-		padding: .25em;
-		background-color: invert($primary-background);
-		border: 1px solid #ccc;
-		border-radius: .25em;
+		max-width: 20vw;
+		margin-right: .5em;
+
+		img {
+
+			display: block;
+			max-height: 40vh;
+			width: 100%;
+		}
 	}
 
 	.details {
 
-		display: inline-block;
+		h3 {
+
+			margin: 0;
+		}
+
+		p {
+
+			margin: 0;
+		}
 	}
 }
