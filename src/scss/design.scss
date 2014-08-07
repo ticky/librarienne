@@ -272,6 +272,7 @@ a:link {
 	background-color: transparent;
 	border-top: 1px solid transparent;
 	border-bottom: 1px solid transparent;
+	overflow: hidden;
 	@include flex();
 	@include flex-direction(row);
 	@include align-content(space-between);
@@ -430,6 +431,8 @@ a:link {
 	}
 
 	&:hover {
+
+		overflow: visible;
 
 		@if $dark-mode {
 
