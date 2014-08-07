@@ -1,5 +1,11 @@
 (function() {
 
+	'use strict';
+
+	/* global app */
+	/* global console */
+	/* global Textual */
+
 	var punctuationCharacters = [
 			',',
 			':',
@@ -8,8 +14,6 @@
 			'?'
 		],
 		fetchedUrls = [],
-		serverId,
-		channelId,
 		checkShowRepeatedNicknames,
 		checkShowChannelIntro,
 		checkShowOpenGraphPreviews,
@@ -17,9 +21,11 @@
 
 	function buildQuerySelectorAllAsArrayFunction(node) {
 
-		return function(query) {
+		return function() {
 
-			return Array.prototype.slice.call(node.querySelectorAll(query));
+			return Array.prototype.concat.apply([], Array.prototype.map.call(arguments, function(query) {
+				return Array.prototype.slice.call(node.querySelectorAll(query));
+			}));
 
 		};
 
@@ -53,10 +59,10 @@
 			);
 			titles.push(doc.title);
 		
-		var descriptions = querySelectorAllAsArray([
-				'meta[name=\'description\']:not([content=\'\'])',
-				'meta[property=\'og:description\']:not([content=\'\'])'
-			].join(', '));
+		var descriptions = querySelectorAllAsArray(
+				'meta[property=\'og:description\']:not([content=\'\'])',
+				'meta[name=\'description\']:not([content=\'\'])'
+			);
 		
 		var siteNames = querySelectorAllAsArray(
 				'meta[property=\'og:site_name\']:not([content=\'\'])'
@@ -67,15 +73,15 @@
 			);
 			types.push('website');
 		
-		var images = querySelectorAllAsArray([
+		var images = querySelectorAllAsArray(
 				'meta[property=\'og:image\']:not([content=\'\'])',
 				'meta[property=\'og:image:url\']:not([content=\'\'])'
-			].join(', '));
+			);
 		
-		var urls = querySelectorAllAsArray([
+		var urls = querySelectorAllAsArray(
 				'link[rel=\'canonical\']',
 				'meta[property=\'og:url\']:not([content=\'\'])'
-			].join(', '));
+			);
 
 		return {
 			title: normaliseMeta(titles.shift()),
@@ -87,11 +93,6 @@
 		};
 
 	}
-
-	Textual.viewInitiated = function(type, server, channel, channelName) {
-		serverId = server;
-		channelId = channel;
-	};
 
 	Textual.fadeOutLoadingScreen = function() {
 
@@ -121,7 +122,7 @@
 
 			document.body.classList[checkShowChannelIntro.checked === true ? 'remove' : 'add']('hide-channel-intro');
 
-		}else if (key === 'Show Open Graph Previews') {
+		} else if (key === 'Show Open Graph Previews') {
 
 			checkShowOpenGraphPreviews.checked = app.styleSettingsRetrieveValue('Show Open Graph Previews');
 
@@ -140,12 +141,11 @@
 		// style settings supported; enable user style preferences
 		if (app.styleSettingsRetrieveValue instanceof Function) {
 
-			var buttonShowPreferences = document.createElement('button'),
-				bodyIntro = document.getElementById('body_intro');
+			var buttonShowPreferences = document.createElement('button');
+				buttonShowPreferences.id = 'show_preferences';
+				buttonShowPreferences.appendChild(document.createTextNode('⌘'));
 
-			buttonShowPreferences.appendChild(document.createTextNode('⌘'));
-
-			bodyIntro.appendChild(buttonShowPreferences);
+			document.body.appendChild(buttonShowPreferences);
 
 			checkShowRepeatedNicknames = document.getElementById('checkShowRepeatedNicknames');
 
@@ -273,7 +273,14 @@
 
 							if (typeof parsedData.description !== 'undefined') {
 								var description = document.createElement('p');
-									description.appendChild(document.createTextNode(parsedData.description));
+
+								parsedData.description.split('\n').forEach(function(descriptionLine, descriptionLineIndex, descriptionArray) {
+									description.appendChild(document.createTextNode(descriptionLine));
+									if (descriptionLineIndex + 1 < descriptionArray.length) {
+										description.appendChild(document.createElement('br'));
+									}
+								});
+
 								details.appendChild(description);
 							}
 

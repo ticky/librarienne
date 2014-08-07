@@ -43,6 +43,7 @@ body {
 	&.show-preferences {
 
 		overflow: hidden;
+		pointer-events: none;
 	}
 }
 
@@ -115,20 +116,6 @@ a:link {
 			display: none;
 		}
 	}
-
-	button {
-
-		font-family: inherit;
-		font-size: inherit;
-		border: none;
-		background: transparent;
-		color: #4b7fd4;
-		font-family: inherit;
-		font-size: inherit;
-		line-height: inherit;
-		margin:0;
-		padding:0;
-	}
 }
 
 #body_home {
@@ -155,6 +142,8 @@ a:link {
 	overflow: hidden;
 	word-break: break-word;
 	z-index: 1;
+	-webkit-transition: padding-right $transition-time ease-in-out;
+	transition: padding-right $transition-time ease-in-out;
 
 	&:hover {
 
@@ -167,6 +156,45 @@ a:link {
 		opacity: 0.8;
 		margin-right: 0.5em;
 		@include user-select(none);
+	}
+
+	body:hover & {
+
+		padding-right: 2em;
+	}
+}
+
+#show_preferences {
+
+	position: fixed;
+	top: 0;
+	right: 0;
+	font-family: inherit;
+	font-size: inherit;
+	border: none;
+	background: transparent;
+	color: #4b7fd4;
+	font-family: inherit;
+	font-size: 1.2em;
+	line-height: 2em;
+	margin: 0;
+	padding: 0 .4em;
+	opacity: 0;
+	-webkit-transition: opacity $transition-time ease-in-out;
+	transition: opacity $transition-time ease-in-out;
+	z-index: 20;
+	text-shadow: .15em .15em 0 $primary-background,
+		.15em 0 0 $primary-background,
+		.15em -.15em 0 $primary-background,
+		0 -.15em 0 $primary-background,
+		-.15em -.15em 0 $primary-background,
+		-.15em 0 0 $primary-background,
+		-.15em .15em 0 $primary-background,
+		0 .15em 0 $primary-background;
+
+	body:hover & {
+
+		opacity: 1;
 	}
 }
 
@@ -189,6 +217,7 @@ a:link {
 	body.show-preferences & {
 
 		top: 0;
+		pointer-events: all;
 	}
 
 	.box {
