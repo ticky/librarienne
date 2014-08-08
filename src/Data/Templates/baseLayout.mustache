@@ -2,8 +2,13 @@
 <html>
 	<head>
 		<meta charset="{{userConfiguredTextEncoding}}">
+		<!-- Style Stylesheet -->
 		<link rel="stylesheet" href="{{activeStyleAbsolutePath}}design.css?u={{cacheToken}}">
+		<!-- Core JS; Textual 4+ -->
 		<script src="{{applicationResourcePath}}/JavaScript/API/core.js"></script>
+		<!-- Core Private JS; Textual 5+ -->
+		<script src="{{applicationResourcePath}}/JavaScript/API/corePrivate.js"></script>
+		<!-- Style Scripts -->
 		<script src="{{activeStyleAbsolutePath}}scripts.js?u={{cacheToken}}"></script>
 		<style type="text/css">
 			html {
@@ -23,7 +28,7 @@
 				font-family: "Menlo" !important;
 			}
 
-			.inlineimage {
+			.inline_image {
 				max-width: {{preferredMaximumWidth}}px;
 			}
 
@@ -68,18 +73,12 @@
 			    remain the same as the ID value of these elements are used internally by Textual. }}
 			<div id="loading_screen">
 				<h1>
-					<small>Loading</small>
-					{{#isChannelView}} {{channelName}}<small> on </small>{{/isChannelView}}
-					{{#isPrivateMessageView}} {{channelName}}<small> on </small>{{/isPrivateMessageView}}
-					{{configuredServerName}}
-					<small>&hellip;</small>
+					<small>Loading</small>{{#isChannelView}} {{channelName}} <small>on</small>{{/isChannelView}}{{#isPrivateMessageView}} {{channelName}} <small>on</small>{{/isPrivateMessageView}} {{configuredServerName}}<small>&hellip;</small>
 				</h1>
 			</div>
 			<div id="body_intro">
 				<h1>
-					{{#isChannelView}}<small>This is </small>{{channelName}}<small> on </small>{{/isChannelView}}
-					{{#isPrivateMessageView}}<small>You&rsquo;re talking to </small>{{channelName}}<small> on </small>{{/isPrivateMessageView}}
-					{{configuredServerName}}
+					{{#isChannelView}}<small>This is</small> {{channelName}} <small>on</small>{{/isChannelView}}{{#isPrivateMessageView}}<small>You&rsquo;re talking to</small> {{channelName}} <small>on</small>{{/isPrivateMessageView}} {{configuredServerName}}
 				</h1>
 			</div>
 		{{#isChannelView}}
@@ -89,9 +88,9 @@
 			<div id="preferences">
 				<div class="box">
 					<div class="checkboxes">
-						<label><input id="checkShowRepeatedNicknames" type="checkbox"> Show nicknames for repeated messages from the same sender</label>
-						<label><input id="checkShowChannelIntro" type="checkbox" checked> Show channel intro</label>
-						<label><input id="checkShowOpenGraphPreviews" type="checkbox"> Enable inline Open Graph previews</label>
+						<label><input id="checkShowRepeatedNicknames" type="checkbox">&nbsp;Show nicknames for repeated messages from the same sender</label>
+						<label><input id="checkShowChannelIntro" type="checkbox" checked>&nbsp;Show channel intro</label>
+						<label><input id="checkShowOpenGraphPreviews" type="checkbox">&nbsp;Enable inline Open Graph previews</label>
 					</div>
 					<button id="buttonClosePreferences">Close</button>
 				</div>

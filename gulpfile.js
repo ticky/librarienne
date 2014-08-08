@@ -4,6 +4,7 @@
 
 	var gulp = require('gulp'),
 		clean = require('gulp-clean'),
+		minify = require('gulp-minify-html'),
 		sass = require('gulp-ruby-sass'),
 		zip = require('gulp-zip'),
 		theme = require('./package');
@@ -22,16 +23,26 @@
 			]),
 			gulp.src('./src/scss/design.scss')
 				.pipe(sass({
-					loadPath: ['./src/themes/' + name + '/scss/']
+					loadPath: ['./src/themes/' + name + '/scss/'],
+					style: 'compressed'
 				}))
 		].forEach(function(item) {
 			item.pipe(gulp.dest('./build/' + theme.title + ' (' + name + ')/'));
 		});
 
 		gulp.src([
-			'./src/Data/**/*',
-			'./src/themes/' + name + '/Data/**/*'
-		]).pipe(gulp.dest('./build/' + theme.title + ' (' + name + ')/Data/'));
+			'./src/Data/Settings/*',
+			'./src/themes/' + name + '/Data/Settings/*'
+		]).pipe(gulp.dest('./build/' + theme.title + ' (' + name + ')/Data/Settings/'));
+
+		gulp.src([
+			'./src/Data/Templates/**/*.mustache',
+			'./src/themes/' + name + '/Data/Templates/**/*.mustache'
+		])
+		.pipe(minify({
+			quotes: true // disable removing quotes
+		}))
+		.pipe(gulp.dest('./build/' + theme.title + ' (' + name + ')/Data/Templates/'));
 
 	}
 
