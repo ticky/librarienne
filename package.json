@@ -5,11 +5,12 @@
   "description": "A Style for the Textual IRC client",
   "dependencies": {},
   "devDependencies": {
+    "glob": "^4.0.5",
     "gulp": "^3.8.1",
     "gulp-clean": "^0.3.0",
+    "gulp-minify-html": "^0.1.4",
     "gulp-ruby-sass": "^0.5.0",
-    "gulp-zip": "^0.4.0",
-    "gulp-minify-html": "^0.1.4"
+    "gulp-zip": "^0.4.0"
   },
   "repository": {
     "type": "git",

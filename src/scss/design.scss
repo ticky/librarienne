@@ -2,23 +2,23 @@
 @import 'mixins/sticky';
 @import 'mixins/user-select';
 
-@import 'theme';
-
-$dark-mode: lightness($primary-background) < 50%;
-
 $topic-border-color: rgba(166, 166, 166, 0.8);
 
 $link-color: #4b7fd4;
-
-@if $dark-mode {
-	$link-color: hsl(hue($link-color), saturation($link-color), 100% - lightness($link-color));
-}
 
 $row-hover-colour-change: 7.5%;
 
 $breakpoint: 480px;
 
 $transition-time: 200ms;
+
+@import 'theme';
+
+$dark-mode: lightness($primary-background) < 50%;
+
+@if $dark-mode {
+	$link-color: hsl(hue($link-color), saturation($link-color), 100% - lightness($link-color));
+}
 
 @import 'components/nickcolours';
 
