@@ -12,7 +12,7 @@ $breakpoint: 480px;
 
 $transition-time: 200ms;
 
-@import 'theme';
+@import 'variant';
 
 $dark-mode: lightness($primary-background) < 50%;
 
