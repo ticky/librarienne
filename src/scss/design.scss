@@ -471,7 +471,7 @@ a:link {
 	}
 
 	// Lines where current user was highlighted
-	&[highlight] {
+	&[highlight="true"] {
 
 		background-color: hsla(270, 50%, 57%, 0.1);
 		border-color: hsla(270, 50%, 57%, 0.3);
@@ -499,7 +499,7 @@ a:link {
 
 	// Lines after mark are highlighted
 
-	#mark ~ &:not([highlight]) {
+	#mark ~ &:not([highlight="true"]) {
 
 		@if $dark-mode {
 
@@ -540,7 +540,7 @@ a:link {
 		}
 	}
 
-	#mark + &:not([highlight]) {
+	#mark + &:not([highlight="true"]) {
 
 		@if $dark-mode {
 

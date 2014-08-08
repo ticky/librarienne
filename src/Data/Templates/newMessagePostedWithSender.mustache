@@ -1,4 +1,4 @@
-<div id="line-{{lineNumber}}" time="{{lineRenderTime}}" class="line {{lineType}} {{lineClassAttributeRepresentation}}" ltype="{{lineType}}" nickname="{{nickname}}" mtype="{{nicknameType}}"{{#nicknameColorHashingEnabled}} nick-color-number="{{nicknameColorNumber}}"{{/nicknameColorHashingEnabled}} command="{{rawCommand}}"{{#isHighlight}} highlight{{/isHighlight}}>
+<div id="line-{{lineNumber}}" time="{{lineRenderTime}}" class="line {{lineType}} {{lineClassAttributeRepresentation}}" ltype="{{lineType}}" nickname="{{nickname}}" mtype="{{nicknameType}}" nick-color-number="{{#nicknameColorHashingEnabled}}{{nicknameColorNumber}}{{/nicknameColorHashingEnabled}}" command="{{rawCommand}}" highlight="{{highlightAttributeRepresentation}}">
 	<span class="time">{{formattedTimestamp}}</span>
 {{#isEncrypted}}
 	{{{encryptedMessageLockTemplate}}}

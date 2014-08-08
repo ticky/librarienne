@@ -212,7 +212,7 @@
 			line.classList.add('repeated-nickname');
 		}
 
-		if (checkShowOpenGraphPreviews.checked === true && line.classList.contains('text')) {
+		if (typeof checkShowOpenGraphPreviews !== 'undefined' && checkShowOpenGraphPreviews.checked === true && line.classList.contains('text')) {
 
 			var previewedImageUrls = querySelectorAllAsArray('a.inline_image:link').map(function(link) {
 				return link.href;
