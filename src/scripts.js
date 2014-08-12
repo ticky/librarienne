@@ -132,11 +132,9 @@
 
 	};
 
-	Textual.viewFinishedLoading = Textual.viewFinishedReload = function() {
+	Textual.viewBodyDidLoad = function() {
 
 		console.debug('View Finished Loading');
-
-		console.debug(app.styleSettingsRetrieveValue instanceof Function);
 
 		// style settings supported; enable user style preferences
 		if (app.styleSettingsRetrieveValue instanceof Function) {
