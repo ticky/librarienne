@@ -7,32 +7,27 @@
 	/* global Textual */
 
 	var punctuationCharacters = [
-			',',
-			':',
-			'.',
-			'!',
-			'?'
-		],
-		fetchedUrls = [],
-		checkShowRepeatedNicknames,
-		checkShowChannelIntro,
-		checkShowOpenGraphPreviews,
-		buttonClosePreferences;
+		',',
+		':',
+		'.',
+		'!',
+		'?'
+	];
+	var fetchedUrls = [];
+	var checkShowRepeatedNicknames;
+	var checkShowChannelIntro;
+	var checkShowOpenGraphPreviews;
+	var buttonClosePreferences;
 
 	function buildQuerySelectorAllAsArrayFunction(node) {
-
 		return function() {
-
 			return Array.prototype.concat.apply([], Array.prototype.map.call(arguments, function(query) {
 				return Array.prototype.slice.call(node.querySelectorAll(query));
 			}));
-
 		};
-
 	}
 
 	function normaliseMeta(meta) {
-
 		if (typeof meta === 'object' && typeof meta.nodeName !== 'undefined') {
 			// DOM element
 			if (meta.nodeName === 'META' && (meta.hasAttribute('property') || meta.hasAttribute('name'))) {
@@ -47,41 +42,39 @@
 		if (typeof meta === 'string') {
 			return meta;
 		}
-
 	}
 
 	function metaParser(doc) {
-
 		var querySelectorAllAsArray = buildQuerySelectorAllAsArrayFunction(doc);
 
 		var titles = querySelectorAllAsArray(
-				'meta[property=\'og:title\']:not([content=\'\'])'
-			);
-			titles.push(doc.title);
+			'meta[property=\'og:title\']:not([content=\'\'])'
+		);
+		titles.push(doc.title);
 		
 		var descriptions = querySelectorAllAsArray(
-				'meta[property=\'og:description\']:not([content=\'\'])',
-				'meta[name=\'description\']:not([content=\'\'])'
-			);
+			'meta[property=\'og:description\']:not([content=\'\'])',
+			'meta[name=\'description\']:not([content=\'\'])'
+		);
 		
 		var siteNames = querySelectorAllAsArray(
-				'meta[property=\'og:site_name\']:not([content=\'\'])'
-			);
+			'meta[property=\'og:site_name\']:not([content=\'\'])'
+		);
 		
 		var types = querySelectorAllAsArray(
-				'meta[property=\'og:type\']:not([content=\'\'])'
-			);
-			types.push('website');
+			'meta[property=\'og:type\']:not([content=\'\'])'
+		);
+		types.push('website');
 		
 		var images = querySelectorAllAsArray(
-				'meta[property=\'og:image\']:not([content=\'\'])',
-				'meta[property=\'og:image:url\']:not([content=\'\'])'
-			);
+			'meta[property=\'og:image\']:not([content=\'\'])',
+			'meta[property=\'og:image:url\']:not([content=\'\'])'
+		);
 		
 		var urls = querySelectorAllAsArray(
-				'link[rel=\'canonical\']',
-				'meta[property=\'og:url\']:not([content=\'\'])'
-			);
+			'link[rel=\'canonical\']',
+			'meta[property=\'og:url\']:not([content=\'\'])'
+		);
 
 		return {
 			title: normaliseMeta(titles.shift()),
@@ -91,11 +84,9 @@
 			image: normaliseMeta(images.shift()),
 			url: normaliseMeta(urls.shift())
 		};
-
 	}
 
 	Textual.fadeOutLoadingScreen = function() {
-
 		// Override loading screen fade
 		var loadingScreen = document.getElementById('loading_screen');
 		loadingScreen.style.opacity = 0;
@@ -103,11 +94,9 @@
 		setTimeout(function() {
 			loadingScreen.style.display = 'none';
 		}, 250);
-
 	};
 
 	Textual.styleSettingDidChange = function(key) {
-
 		console.debug('Style setting "' + key + '\" changed to', app.styleSettingsRetrieveValue(key));
 
 		if (key === 'Show Repeated Nicknames') {
@@ -116,12 +105,6 @@
 
 			document.body.classList[checkShowRepeatedNicknames.checked === true ? 'add' : 'remove']('show-repeated-nicknames');
 
-		} else if (key === 'Hide Channel Intro') {
-
-			checkShowChannelIntro.checked = !app.styleSettingsRetrieveValue('Hide Channel Intro');
-
-			document.body.classList[checkShowChannelIntro.checked === true ? 'remove' : 'add']('hide-channel-intro');
-
 		} else if (key === 'Show Open Graph Previews') {
 
 			checkShowOpenGraphPreviews.checked = app.styleSettingsRetrieveValue('Show Open Graph Previews');
@@ -129,11 +112,9 @@
 			document.body.classList[checkShowOpenGraphPreviews.checked === true ? 'add' : 'remove']('show-open-graph-previews');
 
 		}
-
 	};
 
 	Textual.viewBodyDidLoad = function() {
-
 		console.debug('View Finished Loading');
 
 		// style settings supported; enable user style preferences
@@ -143,22 +124,45 @@
 				buttonShowPreferences.id = 'show_preferences';
 				buttonShowPreferences.appendChild(document.createTextNode('⌘'));
 
+			var divPreferences = document.createElement('div');
+				divPreferences.id = 'preferences';
+
+			var divPreferenceBox = document.createElement('div');
+				divPreferenceBox.className = 'box';
+				divPreferences.appendChild(divPreferenceBox);
+
+			var divCheckboxes = document.createElement('div');
+				divCheckboxes.className = 'checkboxes';
+				divPreferenceBox.appendChild(divCheckboxes);
+
+			buttonClosePreferences = document.createElement('button');
+				buttonClosePreferences.id = 'buttonClosePreferences';
+				buttonClosePreferences.innerHTML = 'Close';
+				divPreferenceBox.appendChild(buttonClosePreferences);
+
+			var labelShowRepeatedNicknames = document.createElement('label');
+
+			checkShowRepeatedNicknames = document.createElement('input');
+				checkShowRepeatedNicknames.id = 'checkShowRepeatedNicknames';
+				checkShowRepeatedNicknames.type = 'checkbox';
+				labelShowRepeatedNicknames.appendChild(checkShowRepeatedNicknames);
+				labelShowRepeatedNicknames.appendChild(document.createTextNode(' Show nicknames for repeated messages from the same sender'));
+				divCheckboxes.appendChild(labelShowRepeatedNicknames);
+
+			var labelShowOpenGraphPreviews = document.createElement('label');
+
+			checkShowOpenGraphPreviews = document.createElement('input');
+				checkShowOpenGraphPreviews.id = 'checkShowOpenGraphPreviews';
+				checkShowOpenGraphPreviews.type = 'checkbox';
+				labelShowOpenGraphPreviews.appendChild(checkShowOpenGraphPreviews);
+				labelShowOpenGraphPreviews.appendChild(document.createTextNode(' Enable inline Open Graph previews'));
+				divCheckboxes.appendChild(labelShowOpenGraphPreviews);
+
 			document.body.appendChild(buttonShowPreferences);
-
-			checkShowRepeatedNicknames = document.getElementById('checkShowRepeatedNicknames');
-
-			checkShowChannelIntro = document.getElementById('checkShowChannelIntro');
-
-			checkShowOpenGraphPreviews = document.getElementById('checkShowOpenGraphPreviews');
-
-			buttonClosePreferences = document.getElementById('buttonClosePreferences');
+			document.body.appendChild(divPreferences);
 
 			checkShowRepeatedNicknames.addEventListener('click', function() {
 				app.styleSettingsSetValue('Show Repeated Nicknames', checkShowRepeatedNicknames.checked);
-			});
-
-			checkShowChannelIntro.addEventListener('click', function() {
-				app.styleSettingsSetValue('Hide Channel Intro', !checkShowChannelIntro.checked);
 			});
 
 			checkShowOpenGraphPreviews.addEventListener('click', function() {
@@ -175,39 +179,45 @@
 
 			Textual.styleSettingDidChange('Show Repeated Nicknames');
 
-			Textual.styleSettingDidChange('Hide Channel Intro');
-
 			Textual.styleSettingDidChange('Show Open Graph Previews');
 
 		}
 
 		Textual.scrollToBottomOfView();
 		Textual.fadeOutLoadingScreen();
-
 	};
 
 	Textual.newMessagePostedToView = function(lineNumber) {
-
 		var lineId = 'line-' + lineNumber;
 
 		var line = document.getElementById(lineId);
 
 		var message = line.querySelector('.message');
 
+		var innerMessage = message.querySelector('.innerMessage');
+
+		var sender = line.querySelector('.sender');
+		var senderText = sender !== null && sender.getAttribute('nickname');
+
 		var querySelectorAllAsArray = buildQuerySelectorAllAsArrayFunction(message);
 
-		if (line.classList.contains('action') && punctuationCharacters.indexOf(message.textContent[0]) !== -1) {
+		if (line.classList.contains('action') && punctuationCharacters.indexOf(innerMessage.textContent.trim()[0]) !== -1) {
 			line.classList.add('punctuated');
 		}
 
 		var previousMessage = line.previousElementSibling;
+		var previousMessageSender = null;
 
 		if (previousMessage !== null && previousMessage.id === 'mark') {
 			previousMessage = previousMessage.previousElementSibling;
 		}
 
-		if (previousMessage !== null && line.hasAttribute('nickname') && line.getAttribute('nickname') === previousMessage.getAttribute('nickname')) {
-			line.classList.add('repeated-nickname');
+		if (previousMessage !== null && senderText !== null) {
+			previousMessageSender = previousMessage.querySelector('.sender');
+
+			if (previousMessageSender !== null && senderText === previousMessageSender.getAttribute('nickname')) {
+				line.classList.add('repeated-nickname');
+			}
 		}
 
 		if (typeof checkShowOpenGraphPreviews !== 'undefined' && checkShowOpenGraphPreviews.checked === true && line.classList.contains('text')) {
@@ -232,7 +242,7 @@
 						displayElement.classList.add('inline_opengraph');
 						displayElement.style.display = 'none';
 
-					message.appendChild(displayElement);
+					innerMessage.appendChild(displayElement);
 
 					var request = new XMLHttpRequest();
 						request.open('GET', url, true);
@@ -250,6 +260,7 @@
 								var image = document.createElement('img');
 									image.src = parsedData.image;
 								imageWrapper.appendChild(image);
+								displayElement.style.backgroundImage = 'linear-gradient(to right, rgba(241,241,241,.8) 0%, rgba(241,241,241,.95) 100%), url(' + parsedData.image + ')';
 								displayElement.appendChild(imageWrapper);
 							}
 
@@ -288,7 +299,7 @@
 
 						};
 						request.onerror = request.ontimeout = function() {
-							message.removeChild(displayElement);
+							innerMessage.removeChild(displayElement);
 						};
 						request.send();
 
@@ -301,7 +312,6 @@
 			}
 
 		}
-
 	};
 
 	console.log('Theme Script Loaded');

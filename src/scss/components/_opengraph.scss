@@ -1,0 +1,54 @@
+body.show-open-graph-previews {
+
+  .inline_opengraph {
+    @include flex();
+    border-width: 1px;
+    border-style: solid;
+    border-radius: .25em;
+    background-color: $primary-background;
+    padding: 0.5em;
+    background-size:cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    text-shadow: .15em .15em 0 $primary-background,
+      .15em 0 0 $primary-background,
+      .15em -.15em 0 $primary-background,
+      0 -.15em 0 $primary-background,
+      -.15em -.15em 0 $primary-background,
+      -.15em 0 0 $primary-background,
+      -.15em .15em 0 $primary-background,
+      0 .15em 0 $primary-background;
+
+    @if $dark-mode {
+
+      border-color: lighten($primary-background, $row-hover-colour-change);
+
+    } @else {
+
+      border-color: darken($primary-background, $row-hover-colour-change);
+
+    }
+
+    .image_wrapper {
+      max-width: 20vw;
+      margin-right: .5em;
+
+      img {
+        display: block;
+        max-height: 40vh;
+        max-width: 100%;
+      }
+    }
+
+    .details {
+
+      h3 {
+        margin: 0;
+      }
+
+      p {
+        margin: 0;
+      }
+    }
+  }
+}

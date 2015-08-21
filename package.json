@@ -1,8 +1,8 @@
 {
-  "title": "Jessica's Fancy New Style",
-  "name": "jesscas-fancy-new-style",
-  "version": "0.4.4",
-  "description": "A Style for the Textual IRC client",
+  "title": "Librarienne",
+  "name": "librarienne",
+  "version": "0.4.5",
+  "description": "A style for the Textual IRC client",
   "dependencies": {},
   "devDependencies": {
     "glob": "^4.0.5",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.com:geoffstokes/fancy-new-style.git"
+    "url": "git@gitlab.com:ticky/librarienne.git"
   },
   "author": "Jessica Stokes <hello@jessicastokes.net>",
   "license": "MIT"
