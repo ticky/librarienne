@@ -17,5 +17,8 @@
     "url": "git@gitlab.com:ticky/librarienne.git"
   },
   "author": "Jessica Stokes <hello@jessicastokes.net>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "build": "gulp"
+  }
 }
