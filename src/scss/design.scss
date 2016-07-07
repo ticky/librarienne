@@ -21,8 +21,6 @@ $dark-mode: lightness($primary-background) < 50%;
 }
 
 @import 'components/nickcolours';
-@import 'components/opengraph';
-@import 'components/preferences';
 
 * {
 	box-sizing: border-box;
@@ -116,10 +114,6 @@ a:link,
 		opacity: .8;
 		margin-right: .5em;
 		@include user-select(none);
-	}
-
-	body:hover & {
-		padding-right: 2em;
 	}
 }
 
@@ -276,7 +270,7 @@ a:link,
 
 	@media (min-width: $breakpoint) {
 
-		body:not(.show-repeated-nicknames) &.repeated-nickname:not([ltype*='action']) {
+		&.repeated-nickname:not([ltype*='action']) {
 
 			.message .senderContainer {
 				opacity: 0;

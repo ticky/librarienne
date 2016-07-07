@@ -13,5 +13,7 @@
 	</dict>
 	<key>Underlying Window Color</key>
 	<string>#eeeeee</string>
+	<key>Nickname Color Style</key>
+  <string>HSL-light</string>
 </dict>
 </plist>
